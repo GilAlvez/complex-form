@@ -4,6 +4,6 @@
 
 @layer base {
 	.section {
-		@apply container mx-auto px-5 md:px-14 lg:px-24 2xl:px-44 py-36 transition;
+		@apply container mx-auto px-5 md:px-10 lg:px-20 xl:px-32 2xl:px-44 py-36 transition;
 	}
 }
