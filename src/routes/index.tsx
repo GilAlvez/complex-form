@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import NewUser from "../components/pages/NewUser";
-import Home from "../components/pages/Home";
-import User from "../components/pages/User";
-import StepBasicInfo from "../components/pages/NewUser/step1";
-import StepAddress from "../components/pages/NewUser/step2";
-import StepProfileConfig from "../components/pages/NewUser/step3";
-import StepUserInfo from "../components/pages/NewUser/step4";
+import NewUser from "../pages/NewUser";
+import Home from "../pages/Home";
+import StepBasicInfo from "../pages/NewUser/step1";
+import StepAddress from "../pages/NewUser/step2";
+import StepProfileConfig from "../pages/NewUser/step3";
+import StepUserInfo from "../pages/NewUser/step4";
+import Profile from "../pages/Profile";
+import EditUser from "../pages/Profile/Edit";
 
 export const router = createBrowserRouter([
   {
@@ -13,8 +14,12 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/welcome",
-    element: <User />,
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/edit",
+    element: <EditUser />,
   },
   {
     path: "/new-user",
