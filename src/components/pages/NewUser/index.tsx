@@ -3,13 +3,21 @@ import { Breadcrumb, BreadcrumbItem } from "@chakra-ui/react";
 import { NavLink, Outlet } from "react-router-dom";
 
 const NewUser = () => {
-  const active = "md:mx-4 border-b-2 border-b-sky-400";
+  const active = "md:mx-4 border-b-2 border-b-sky-300";
   const notActive = "md:mx-4 border-b-2 hover:border-b-sky-600";
+  const testObject = {
+    name: "name",
+    email: "email@example.com",
+    address: {
+      street: "street",
+      number: "number",
+    },
+  };
 
   return (
     <>
-      <section className="h-screen flex flex-col items-center gap-24 section">
-        <header>
+      <section className="section h-screen flex flex-col md:flex-row gap-12">
+        <div className="w-full md:min-w-[35rem] flex flex-col gap-12 items-center">
           <Breadcrumb
             className="text-sm md:text-lg"
             separator={<ChevronRightIcon />}
@@ -47,9 +55,11 @@ const NewUser = () => {
               </NavLink>
             </BreadcrumbItem>
           </Breadcrumb>
-        </header>
-
-        <Outlet />
+          <Outlet />
+        </div>
+        <pre className="md:mt-20 text-sm">
+          {JSON.stringify(testObject, null, 2)}
+        </pre>
       </section>
     </>
   );
