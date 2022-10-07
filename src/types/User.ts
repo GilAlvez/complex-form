@@ -30,10 +30,10 @@ export interface UserState {
       country: string;
     };
 
-    productId: number;
+    product_id: number;
 
     email: string;
-    avatar: string;
+    avatar: any;
     username: string;
     password: string;
   };

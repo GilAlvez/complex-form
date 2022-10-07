@@ -33,10 +33,10 @@ export const initialState: UserState = {
       country: "",
     },
 
-    productId: 1,
+    product_id: 1,
 
     email: "",
-    avatar: "",
+    avatar: null,
     username: "",
     password: "",
   },
@@ -47,8 +47,14 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
 
   switch (type) {
     case Actions.HANDLE_CHANGE:
-      const data = { ...state.data, [payload.name]: payload.value };
-      return { ...state, data };
+      return { ...state, data: { ...state.data, [payload.name]: payload.value } };
+
+    case Actions.HANDLE_CHANGE_ADDRESS:
+      return {
+        ...state,
+        data: { ...state.data, address: { ...state.data.address, [payload.name]: payload.value } },
+      };
+
     default:
       return state;
   }
