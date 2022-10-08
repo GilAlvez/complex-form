@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import ImageInput from "../../components/Inputs/ImageInput";
 import TextField from "../../components/Inputs/TextField";
 import { UserContext } from "../../context/UserContext";
 import { Actions } from "../../store/actions/User.actions";
@@ -14,6 +15,11 @@ const StepUserInfo = () => {
     dispatch({ type: Actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    files && dispatch({ type: Actions.HANDLE_CHANGE_AVATAR, payload: files });
+  };
+
   return (
     <main className="w-full p-6 border border-white/20 rounded-lg md:p-12 ">
       <form className="flex flex-col gap-4">
@@ -24,12 +30,11 @@ const StepUserInfo = () => {
           value={values.email}
           onChange={handleChange}
         />
-        <TextField
+        <ImageInput
           label="Avatar"
-          name="avatar"
-          type="file"
-          value={values.avatar}
-          onChange={handleChange}
+          id="avatar"
+          imgSrc={state.data.avatar.url}
+          onChange={handleAvatarChange}
         />
         <TextField
           label="Username"

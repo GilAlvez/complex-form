@@ -36,7 +36,10 @@ export const initialState: UserState = {
     product_id: 1,
 
     email: "",
-    avatar: null,
+    avatar: {
+      image: null,
+      url: "",
+    },
     username: "",
     password: "",
   },
@@ -54,6 +57,11 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
         ...state,
         data: { ...state.data, address: { ...state.data.address, [payload.name]: payload.value } },
       };
+
+    case Actions.HANDLE_CHANGE_AVATAR:
+      const image = payload[0];
+      const url = image && URL.createObjectURL(payload[0]);
+      return { ...state, data: { ...state.data, avatar: { image, url } } };
 
     default:
       return state;
