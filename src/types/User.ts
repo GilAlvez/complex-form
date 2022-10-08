@@ -33,7 +33,7 @@ export interface UserState {
     product_id: number;
 
     email: string;
-    avatar: any;
+    avatar: { image: File | null; url: string };
     username: string;
     password: string;
   };

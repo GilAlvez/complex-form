@@ -11,7 +11,6 @@ import {
 import { HTMLInputTypeAttribute, useEffect, useState } from "react";
 
 interface TextFieldProps extends InputProps {
-  isInvalid?: boolean;
   error?: string;
   label?: string;
   showPass?: boolean;
@@ -23,17 +22,13 @@ const TextField = (props: TextFieldProps) => {
 
   const [show, setShow] = useState(false);
   const [dynamicType, setDynamicType] = useState(type);
-
-  useEffect(() => {
-    show ? setDynamicType("text") : setDynamicType("password");
-  }, [show]);
-
   const handleClick = () => {
     setShow((state) => !state);
+    show ? setDynamicType("password") : setDynamicType("text");
   };
 
   return (
-    <FormControl isInvalid={isInvalid}>
+    <FormControl isInvalid={error ? true : false}>
       <FormLabel>{label}</FormLabel>
       <InputGroup>
         <Input type={dynamicType} {...rest} />
