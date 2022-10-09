@@ -11,7 +11,14 @@ export type UserActions =
     }
   | {
       type: Actions.HANDLE_CHANGE_ADDRESS;
-      payload: { name: string; value: string };
+      payload: {
+        label: string;
+        country?: string;
+        city?: string;
+        postal_code?: string;
+        state?: string;
+        street?: string;
+      };
     }
   | {
       type: Actions.HANDLE_CHANGE_AVATAR;
