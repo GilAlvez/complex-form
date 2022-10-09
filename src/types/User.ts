@@ -20,14 +20,12 @@ export interface UserState {
     tags: string;
 
     address: {
-      street: string;
-      number: string;
-      zipcode: string;
-      neighborhood: string;
-      complement: string;
-      state: string;
-      city: string;
-      country: string;
+      label: string;
+      country?: string;
+      city?: string;
+      postal_code?: string;
+      state?: string;
+      street?: string;
     };
 
     product_id: number;

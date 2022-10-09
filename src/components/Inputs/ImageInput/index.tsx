@@ -15,21 +15,28 @@ const ImageInput = (props: ImageInputProps) => {
     <div>
       <FormLabel>{label}</FormLabel>
       <div
-        className={`flex flex-col md:flex-row items-center justify-evenly p-4  rounded-md gap-4 ${
+        className={`${
           error ? "border-2 border-red-400" : "border border-white/[0.16]"
-        }`}
+        } flex flex-col md:flex-row items-center justify-evenly p-4  rounded-md gap-4`}
       >
         <label
           htmlFor={id}
-          className="flex flex-col p-8 xl:flex-row gap-2 items-center border border-dashed rounded-md border-white/25 hover:border-white/40 transition"
+          className="relative flex flex-col p-8 xl:flex-row gap-2 items-center border border-dashed rounded-md border-white/25 hover:border-white/40 transition"
         >
           <h2 className="whitespace-nowrap">Drop your image here or</h2>
-          <Button size="sm">
-            <label htmlFor={id} className="cursor-pointer">
+
+          <input
+            className="absolute opacity-0 left-0 w-full h-full"
+            id={id}
+            type="file"
+            accept="image/*"
+            {...rest}
+          />
+          <Button padding={0} height={"max-content"} size="sm">
+            <label htmlFor={id} className="cursor-pointer p-2">
               Select Image
             </label>
           </Button>
-          <input id={id} type="file" accept="image/*" hidden {...rest} />
         </label>
         <figure>
           <img

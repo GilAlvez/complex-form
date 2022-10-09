@@ -23,14 +23,12 @@ export const initialState: UserState = {
     tags: "",
 
     address: {
-      street: "",
-      number: "",
-      zipcode: "",
-      neighborhood: "",
-      complement: "",
-      state: "",
-      city: "",
+      label: "",
       country: "",
+      city: "",
+      postal_code: "",
+      state: "",
+      street: "",
     },
 
     product_id: 1,
@@ -55,7 +53,7 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
     case Actions.HANDLE_CHANGE_ADDRESS:
       return {
         ...state,
-        data: { ...state.data, address: { ...state.data.address, [payload.name]: payload.value } },
+        data: { ...state.data, address: payload },
       };
 
     case Actions.HANDLE_CHANGE_AVATAR:
