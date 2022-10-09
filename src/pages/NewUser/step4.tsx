@@ -33,7 +33,7 @@ const StepUserInfo = () => {
         <ImageInput
           label="Avatar"
           id="avatar"
-          imgSrc={state.data.avatar.url}
+          imgSrc={values.avatar.url}
           onChange={handleAvatarChange}
         />
         <TextField
