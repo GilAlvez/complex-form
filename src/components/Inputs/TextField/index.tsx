@@ -8,17 +8,18 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { HTMLInputTypeAttribute, useEffect, useState } from "react";
+import { HTMLInputTypeAttribute, useState } from "react";
 
 interface TextFieldProps extends InputProps {
   error?: string;
   label?: string;
   showPass?: boolean;
   type?: HTMLInputTypeAttribute;
+  className?: string;
 }
 
 const TextField = (props: TextFieldProps) => {
-  const { isInvalid, error, label, showPass, type, ...rest } = props;
+  const { isInvalid, error, label, showPass, type, className, ...rest } = props;
 
   const [show, setShow] = useState(false);
   const [dynamicType, setDynamicType] = useState(type);
@@ -28,7 +29,7 @@ const TextField = (props: TextFieldProps) => {
   };
 
   return (
-    <FormControl isInvalid={error ? true : false}>
+    <FormControl isInvalid={error ? true : false} className={className}>
       <FormLabel>{label}</FormLabel>
       <InputGroup>
         <Input type={dynamicType} {...rest} />

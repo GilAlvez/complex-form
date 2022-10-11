@@ -49,7 +49,9 @@ const NewUser = () => {
           </Breadcrumb>
           <Outlet />
         </div>
-        <pre className="md:mt-20 text-sm">{JSON.stringify(user, null, 2)}</pre>
+        <div className="scrollbar bg-gray-900 text-sky-200 shadow-xl shadow-black/60 p-3 rounded-xl text-sm w-max h-max overflow-visible md:mt-20 md:overflow-x-scroll md:min-w-[27rem]">
+          <pre className="h-full">{JSON.stringify(user, null, 2)}</pre>
+        </div>
       </section>
     </>
   );

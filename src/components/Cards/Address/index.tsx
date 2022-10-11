@@ -1,14 +1,17 @@
-import React, { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 interface AddressCardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  selected: boolean;
 }
 const AddressCard = (props: AddressCardProps) => {
-  const { children, ...rest } = props;
+  const { children, selected, ...rest } = props;
   return (
     <div
       tabIndex={0}
-      className="py-3 px-4 border rounded-lg border-white/5 bg-white/5 hover:bg-white/10 focus:bg-white/20 transition-all cursor-pointer"
+      className={`border-slate-700/30 hover:bg-slate-700/50 focus:bg-slate-700 outline-none py-3 px-4 border rounded-lg  transition-all cursor-pointer ${
+        selected ? "bg-slate-700/70" : "bg-slate-700/30"
+      }`}
       {...rest}
     >
       <p>{children}</p>

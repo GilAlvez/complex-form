@@ -2,7 +2,7 @@ import axios from "axios";
 
 const addressParams = {
   access_key: import.meta.env.VITE_POSITION_STACK_ACCESS_KEY,
-  limit: 5,
+  limit: 6,
 };
 
 export const addressApi = axios.create({
