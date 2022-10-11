@@ -8,13 +8,16 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { theme } from "./styles/theme";
 import "./styles/index.css";
 import { UserContextProvider } from "./context/UserContext";
+import { AddressContextProvider } from "./context/AddressContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <UserContextProvider>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <RouterProvider router={router} />
+        <AddressContextProvider>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <RouterProvider router={router} />
+        </AddressContextProvider>
       </UserContextProvider>
     </ChakraProvider>
   </React.StrictMode>

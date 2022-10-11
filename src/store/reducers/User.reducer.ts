@@ -50,10 +50,16 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
     case Actions.HANDLE_CHANGE:
       return { ...state, data: { ...state.data, [payload.name]: payload.value } };
 
-    case Actions.HANDLE_CHANGE_ADDRESS:
+    case Actions.HANDLE_SELECT_ADDRESS:
       return {
         ...state,
         data: { ...state.data, address: payload },
+      };
+
+    case Actions.HANDLE_CHANGE_ADDRESS:
+      return {
+        ...state,
+        data: { ...state.data, address: { ...state.data.address, [payload.name]: payload.value } },
       };
 
     case Actions.HANDLE_CHANGE_AVATAR:
