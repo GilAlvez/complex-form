@@ -1,123 +1,151 @@
-import { Button } from "@chakra-ui/react";
-import { useContext } from "react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Button, Menu, MenuButton, MenuItem, MenuList, Select } from "@chakra-ui/react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import TextArea from "../../components/Inputs/TextArea";
 import TextField from "../../components/Inputs/TextField";
 import { UserContext } from "../../context/UserContext";
 import { Actions } from "../../store/actions/User.actions";
+import { IntlPhone, intlPhoneMask } from "../../utils/intlPhoneMask";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 const StepBasicInfo = () => {
+  const ref = useRef<HTMLInputElement | null>(null);
   const { state, dispatch } = useContext(UserContext);
+  const [selectedCountry, setSelectedCountry] = useState<IntlPhone>();
   const { data: values } = state;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     dispatch({ type: Actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
+  const countryChange = (country: IntlPhone) => {
+    dispatch({ type: Actions.HANDLE_CHANGE, payload: { name: "phone", value: "" } });
+    dispatch({
+      type: Actions.HANDLE_CHANGE,
+      payload: { name: "countryCode", value: country.countryCode },
+    });
+    setSelectedCountry(country);
+  };
+
   return (
-    <main className="w-full p-6 border border-white/20 rounded-lg md:p-12 ">
-      <form className="flex flex-col gap-4">
+    <main className="flex flex-col gap-4 w-full p-6 border border-white/20 rounded-lg md:p-12 ">
+      <form className="grid grid-cols-1 md:grid-cols-12 gap-4">
         <TextField
           label="First name"
           name="first_name"
           type="text"
+          className="md:col-span-4"
           value={values.first_name}
           onChange={handleChange}
+          required
         />
         <TextField
           label="Last name"
           name="last_name"
           type="text"
+          className="md:col-span-8"
           value={values.last_name}
           onChange={handleChange}
+          required
         />
+        <datalist id="genre_options">
+          <option value="Male" />
+          <option value="Female" />
+        </datalist>
         <TextField
           label="Genre"
           name="genre"
+          list="genre_options"
           type="text"
+          className="md:col-span-6 xl:col-span-3"
           value={values.genre}
           onChange={handleChange}
-        />
-        <TextField
-          label="Register Number"
-          name="register_number"
-          type="text"
-          value={values.register_number}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Mother"
-          name="mother_name"
-          type="text"
-          value={values.mother_name}
-          onChange={handleChange}
+          required
         />
         <TextField
           label="Birthday"
           name="birthday"
-          type="text"
+          type="date"
+          className="md:col-span-6 xl:col-span-3"
           value={values.birthday}
           onChange={handleChange}
+          required
         />
+
         <TextField
+          leftElement={
+            <Menu>
+              <MenuButton as={Button} borderRightRadius={0} width="max-content">
+                +{selectedCountry?.countryCode}
+              </MenuButton>
+              <MenuList
+                children={intlPhoneMask.map((country) => (
+                  <MenuItem
+                    key={country.isoCode}
+                    onClick={() => {
+                      countryChange(country);
+                      ref?.current?.focus();
+                    }}
+                    className="flex justify-between gap-3"
+                  >
+                    <div>
+                      <span className={`fi fi-${country.isoCode} mr-3`} />
+                      <span>{country.name}</span>
+                    </div>
+                    <div>+{country.countryCode}</div>
+                  </MenuItem>
+                ))}
+              />
+            </Menu>
+          }
+          mask={selectedCountry?.mask}
+          label="Phone"
+          name="phone"
+          inputRef={ref}
+          type="text"
+          value={values.phone}
+          onChange={handleChange}
+          isDisabled={!selectedCountry}
+          className="md:col-span-12 xl:col-span-6"
+          required
+          borderLeftRadius={0}
+        />
+
+        <TextArea
           label="Description"
           name="description"
-          type="text"
+          placeholder="About me..."
+          className="md:col-span-12"
           value={values.description}
           onChange={handleChange}
         />
         <TextField
           label="Site"
           name="website"
-          type="text"
+          type="url"
+          className="md:col-span-12"
+          leftAddon="https://"
           value={values.website}
           onChange={handleChange}
         />
-        <TextField
-          label="Twitter"
-          name="twitter"
-          type="text"
-          value={values.twitter}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Occupation"
-          name="occupation"
-          type="text"
-          value={values.occupation}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Company"
-          name="company"
-          type="text"
-          value={values.company}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Phone"
-          name="phone"
-          type="text"
-          value={values.phone}
-          onChange={handleChange}
-        />
-        <TextField
+        <TextArea
           label="Tags"
           name="tags"
-          type="text"
+          className="md:col-span-12"
           value={values.tags}
           onChange={handleChange}
         />
-
-        <div className="grid grid-cols-2 gap-4">
-          <Link to={"/"}>
-            <Button className="w-full">Back</Button>
-          </Link>
-          <Link to={"/new-user/address"}>
-            <Button className="w-full">Next</Button>
-          </Link>
-        </div>
       </form>
+      <div className="grid grid-cols-2 gap-4">
+        <Link to={"/"}>
+          <Button className="w-full">Back</Button>
+        </Link>
+        <Link to={"/new-user/address"}>
+          <Button className="w-full">Next</Button>
+        </Link>
+      </div>
     </main>
   );
 };
