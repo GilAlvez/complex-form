@@ -1,21 +1,19 @@
 export interface UserState {
   status: {
-    created: boolean;
-    loggedIn: boolean;
+    step1: boolean;
+    step2: boolean;
+    step3: boolean;
+    step4: boolean;
   };
   data: {
     id: number;
     first_name: string;
     last_name: string;
     genre: string;
-    register_number: string;
-    mother_name: string;
     birthday: string;
     description: string;
     website: string;
-    twitter: string;
-    occupation: string;
-    company: string;
+    countryCode: string;
     phone: string;
     tags: string;
 

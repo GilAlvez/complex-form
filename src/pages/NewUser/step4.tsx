@@ -23,18 +23,18 @@ const StepUserInfo = () => {
   return (
     <main className="w-full p-6 border border-white/20 rounded-lg md:p-12 ">
       <form className="flex flex-col gap-4">
+        <ImageInput
+          label="Avatar"
+          id="avatar"
+          imgSrc={values.avatar.url}
+          onChange={handleAvatarChange}
+        />
         <TextField
           label="E-mail"
           name="email"
           type="text"
           value={values.email}
           onChange={handleChange}
-        />
-        <ImageInput
-          label="Avatar"
-          id="avatar"
-          imgSrc={values.avatar.url}
-          onChange={handleAvatarChange}
         />
         <TextField
           label="Username"

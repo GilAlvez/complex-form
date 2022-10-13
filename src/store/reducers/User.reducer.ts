@@ -3,22 +3,20 @@ import { Actions, UserActions } from "../actions/User.actions";
 
 export const initialState: UserState = {
   status: {
-    created: false,
-    loggedIn: false,
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false,
   },
   data: {
     id: 1,
     first_name: "",
     last_name: "",
     genre: "",
-    register_number: "",
-    mother_name: "",
     birthday: "",
     description: "",
     website: "",
-    twitter: "",
-    occupation: "",
-    company: "",
+    countryCode: "",
     phone: "",
     tags: "",
 
@@ -33,11 +31,11 @@ export const initialState: UserState = {
 
     product_id: 1,
 
-    email: "",
     avatar: {
       image: null,
       url: "",
     },
+    email: "",
     username: "",
     password: "",
   },

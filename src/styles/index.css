@@ -10,6 +10,9 @@ body {
 	-webkit-tap-highlight-color: transparent; 
 	height: -webkit-fill-available;
 }
+[list]::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
 
 @layer base {
 	.section {
