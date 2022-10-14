@@ -76,7 +76,15 @@ const TextField = (props: TextFieldProps) => {
             <Input type={type} ref={inputRef} {...rest} />
           </InputMask>
         ) : (
-          <Input type={dynamicType} {...rest} />
+          <Input
+            type={dynamicType}
+            value={value}
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onMouseDown={onMouseDown}
+            {...rest}
+          />
         )}
 
         {showPass && type === "password" && (

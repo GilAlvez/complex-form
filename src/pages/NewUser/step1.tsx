@@ -1,32 +1,23 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Button, Menu, MenuButton, MenuItem, MenuList, Select } from "@chakra-ui/react";
-import { useContext, useRef, useState } from "react";
+import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import TextArea from "../../components/Inputs/TextArea";
 import TextField from "../../components/Inputs/TextField";
+import { PhoneContext } from "../../context/PhoneContext";
 import { UserContext } from "../../context/UserContext";
 import { Actions } from "../../store/actions/User.actions";
-import { IntlPhone, intlPhoneMask } from "../../utils/intlPhoneMask";
+import { intlPhoneMask } from "../../utils/intlPhoneMask";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 const StepBasicInfo = () => {
   const ref = useRef<HTMLInputElement | null>(null);
+  const { country, countryChange } = useContext(PhoneContext);
   const { state, dispatch } = useContext(UserContext);
-  const [selectedCountry, setSelectedCountry] = useState<IntlPhone>();
   const { data: values } = state;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     dispatch({ type: Actions.HANDLE_CHANGE, payload: { name, value } });
-  };
-
-  const countryChange = (country: IntlPhone) => {
-    dispatch({ type: Actions.HANDLE_CHANGE, payload: { name: "phone", value: "" } });
-    dispatch({
-      type: Actions.HANDLE_CHANGE,
-      payload: { name: "countryCode", value: country.countryCode },
-    });
-    setSelectedCountry(country);
   };
 
   return (
@@ -78,7 +69,7 @@ const StepBasicInfo = () => {
           leftElement={
             <Menu>
               <MenuButton as={Button} borderRightRadius={0} width="max-content">
-                +{selectedCountry?.countryCode}
+                +{values?.countryCode}
               </MenuButton>
               <MenuList
                 children={intlPhoneMask.map((country) => (
@@ -86,7 +77,9 @@ const StepBasicInfo = () => {
                     key={country.isoCode}
                     onClick={() => {
                       countryChange(country);
-                      ref?.current?.focus();
+                      setTimeout(() => {
+                        ref?.current?.focus();
+                      }, 50);
                     }}
                     className="flex justify-between gap-3"
                   >
@@ -100,14 +93,15 @@ const StepBasicInfo = () => {
               />
             </Menu>
           }
-          mask={selectedCountry?.mask}
+          mask={country?.mask}
           label="Phone"
           name="phone"
           inputRef={ref}
           type="text"
+          placeholder={country?.mask}
           value={values.phone}
           onChange={handleChange}
-          isDisabled={!selectedCountry}
+          isDisabled={!values.countryCode}
           className="md:col-span-12 xl:col-span-6"
           required
           borderLeftRadius={0}
