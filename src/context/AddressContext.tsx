@@ -1,9 +1,6 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, Dispatch, Reducer, useReducer, ReactNode, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { addressApi } from "../services/axios";
-import { UserActions } from "../store/actions/User.actions";
-import { initialState, userReducer } from "../store/reducers/User.reducer";
-import type { UserState } from "../types/User";
 
 export const AddressContext = createContext<{
   adresses: any[] | undefined;

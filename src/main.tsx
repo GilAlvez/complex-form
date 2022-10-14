@@ -9,14 +9,17 @@ import { theme } from "./styles/theme";
 import "./styles/index.css";
 import { UserContextProvider } from "./context/UserContext";
 import { AddressContextProvider } from "./context/AddressContext";
+import { PhoneContextProvider } from "./context/PhoneContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <UserContextProvider>
         <AddressContextProvider>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <RouterProvider router={router} />
+          <PhoneContextProvider>
+            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            <RouterProvider router={router} />
+          </PhoneContextProvider>
         </AddressContextProvider>
       </UserContextProvider>
     </ChakraProvider>
