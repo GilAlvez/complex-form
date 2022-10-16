@@ -1,6 +1,7 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
+import TagCard from "../../components/Cards/Tags";
 import TextArea from "../../components/Inputs/TextArea";
 import TextField from "../../components/Inputs/TextField";
 import { PhoneContext } from "../../context/PhoneContext";
@@ -20,9 +21,19 @@ const StepBasicInfo = () => {
     dispatch({ type: Actions.HANDLE_CHANGE, payload: { name, value } });
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { value } = e.currentTarget.tags;
+    dispatch({ type: Actions.ADD_TAG, payload: { value } });
+  };
+
+  const removeTag = (index: number) => {
+    dispatch({ type: Actions.REMOVE_TAG, payload: { index } });
+  };
+
   return (
     <main className="flex flex-col gap-4 w-full p-6 border border-white/20 rounded-lg md:p-12 ">
-      <form className="grid grid-cols-1 md:grid-cols-12 gap-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-4">
         <TextField
           label="First name"
           name="first_name"
@@ -30,7 +41,6 @@ const StepBasicInfo = () => {
           className="md:col-span-4"
           value={values.first_name}
           onChange={handleChange}
-          required
         />
         <TextField
           label="Last name"
@@ -39,7 +49,6 @@ const StepBasicInfo = () => {
           className="md:col-span-8"
           value={values.last_name}
           onChange={handleChange}
-          required
         />
         <datalist id="genre_options">
           <option value="Male" />
@@ -53,7 +62,6 @@ const StepBasicInfo = () => {
           className="md:col-span-6 xl:col-span-3"
           value={values.genre}
           onChange={handleChange}
-          required
         />
         <TextField
           label="Birthday"
@@ -62,7 +70,6 @@ const StepBasicInfo = () => {
           className="md:col-span-6 xl:col-span-3"
           value={values.birthday}
           onChange={handleChange}
-          required
         />
 
         <TextField
@@ -103,7 +110,6 @@ const StepBasicInfo = () => {
           onChange={handleChange}
           isDisabled={!values.countryCode}
           className="md:col-span-12 xl:col-span-6"
-          required
           borderLeftRadius={0}
         />
 
@@ -124,13 +130,23 @@ const StepBasicInfo = () => {
           value={values.website}
           onChange={handleChange}
         />
-        <TextArea
-          label="Tags"
-          name="tags"
-          className="md:col-span-12"
-          value={values.tags}
-          onChange={handleChange}
-        />
+
+        <div className="flex gap-4 md:col-span-12">
+          <TextField label="Tags" name="tags" />
+          <Button className="self-end" type="submit" paddingX={10}>
+            Add Tags
+          </Button>
+        </div>
+
+        <div className="md:col-span-12">
+          <div className="flex flex-wrap gap-4">
+            {values.tags.map((tag, index) => (
+              <TagCard onClick={() => removeTag(index)} key={tag}>
+                {tag}
+              </TagCard>
+            ))}
+          </div>
+        </div>
       </form>
       <div className="grid grid-cols-2 gap-4">
         <Link to={"/"}>

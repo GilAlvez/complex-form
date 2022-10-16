@@ -17,7 +17,7 @@ export const initialState: UserState = {
     website: "",
     countryCode: "",
     phone: "",
-    tags: "",
+    tags: [],
 
     address: {
       label: "",
@@ -43,6 +43,14 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
   switch (type) {
     case Actions.HANDLE_CHANGE:
       return { ...state, data: { ...state.data, [payload.name]: payload.value } };
+
+    case Actions.ADD_TAG:
+      const tags = payload.value.split(/[,.\s]/).filter(Boolean);
+      return { ...state, data: { ...state.data, tags: [...state.data.tags, ...tags] } };
+
+    case Actions.REMOVE_TAG:
+      const tagsRemoveFilter = state.data.tags.splice(payload.index, 1);
+      return { ...state, data: { ...state.data, tags: tagsRemoveFilter } };
 
     case Actions.HANDLE_SELECT_ADDRESS:
       return {

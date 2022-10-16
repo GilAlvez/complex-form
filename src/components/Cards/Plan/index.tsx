@@ -1,7 +1,7 @@
 import { Radio, RadioProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
-interface AddressCardProps extends RadioProps {
+interface PlanCardProps extends RadioProps {
   plan: {
     name: string;
     price: string;
@@ -10,7 +10,7 @@ interface AddressCardProps extends RadioProps {
   children?: ReactNode;
   selected: boolean;
 }
-const PlanCard = (props: AddressCardProps) => {
+const PlanCard = (props: PlanCardProps) => {
   const { plan, children, selected, ...rest } = props;
   return (
     <label

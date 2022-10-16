@@ -14,7 +14,7 @@ export interface UserState {
     website: string;
     countryCode: string;
     phone: string;
-    tags: string;
+    tags: string[];
 
     address: {
       label: string;
