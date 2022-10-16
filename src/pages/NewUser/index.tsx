@@ -32,10 +32,10 @@ const NewUser = () => {
             </BreadcrumbItem>
             <BreadcrumbItem>
               <NavLink
-                to="/new-user/profile-config"
+                to="/new-user/plan"
                 className={({ isActive }) => (isActive ? active : notActive)}
               >
-                Profile Config
+                Plan
               </NavLink>
             </BreadcrumbItem>
             <BreadcrumbItem>

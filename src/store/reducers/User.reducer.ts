@@ -9,7 +9,6 @@ export const initialState: UserState = {
     step4: false,
   },
   data: {
-    id: 1,
     first_name: "",
     last_name: "",
     genre: "",
@@ -29,12 +28,9 @@ export const initialState: UserState = {
       street: "",
     },
 
-    product_id: 1,
+    plan_id: "1",
 
-    avatar: {
-      image: null,
-      url: "",
-    },
+    avatar: { image: null, url: "" },
     email: "",
     username: "",
     password: "",

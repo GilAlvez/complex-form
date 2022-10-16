@@ -34,7 +34,7 @@ const StepAddress = () => {
             label="Search your address here"
             id="search_address"
             name="search_address"
-            placeholder="postal code, city name, region name..."
+            placeholder="street, postal code, region name..."
             buttonName="Search Address"
             error={adresses?.length === 0 ? "No results found" : ""}
           />
@@ -94,7 +94,7 @@ const StepAddress = () => {
           <Link to={"/new-user/basic-info"}>
             <Button className="w-full">Back</Button>
           </Link>
-          <Link to={"/new-user/profile-config"}>
+          <Link to={"/new-user/plan"}>
             <Button className="w-full">Next</Button>
           </Link>
         </div>
