@@ -51,7 +51,7 @@ const StepUserInfo = () => {
           onChange={handleChange}
         />
         <div className="grid grid-cols-2 gap-4">
-          <Link to={"/new-user/profile-config"}>
+          <Link to={"/new-user/plan"}>
             <Button className="w-full">Back</Button>
           </Link>
           <Button>Finish</Button>

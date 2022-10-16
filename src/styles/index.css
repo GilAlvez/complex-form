@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-	font-size: calc(62.5% + 2px + (100vw / 450));
+	font-size: calc(62.5% + 3px + (100vw / 600));
 	height: -webkit-fill-available;
 }
 body {

@@ -3,7 +3,7 @@ import NewUser from "../pages/NewUser";
 import Home from "../pages/Home";
 import StepBasicInfo from "../pages/NewUser/step1";
 import StepAddress from "../pages/NewUser/step2";
-import StepProfileConfig from "../pages/NewUser/step3";
+import StepPlans from "../pages/NewUser/step3";
 import StepUserInfo from "../pages/NewUser/step4";
 import Profile from "../pages/Profile";
 import EditUser from "../pages/Profile/Edit";
@@ -34,8 +34,8 @@ export const router = createBrowserRouter([
         element: <StepAddress />,
       },
       {
-        path: "profile-config",
-        element: <StepProfileConfig />,
+        path: "plan",
+        element: <StepPlans />,
       },
       {
         path: "user-info",

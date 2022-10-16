@@ -6,7 +6,6 @@ export interface UserState {
     step4: boolean;
   };
   data: {
-    id: number;
     first_name: string;
     last_name: string;
     genre: string;
@@ -15,7 +14,7 @@ export interface UserState {
     website: string;
     countryCode: string;
     phone: string;
-    tags: string;
+    tags: string[];
 
     address: {
       label: string;
@@ -26,10 +25,10 @@ export interface UserState {
       street?: string;
     };
 
-    product_id: number;
+    plan_id: string;
 
-    email: string;
     avatar: { image: File | null; url: string };
+    email: string;
     username: string;
     password: string;
   };
