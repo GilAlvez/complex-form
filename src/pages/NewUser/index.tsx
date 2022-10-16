@@ -13,7 +13,7 @@ const NewUser = () => {
     <>
       <section className="section h-screen flex flex-col md:flex-row gap-12">
         <div className="w-full md:min-w-[35rem] xl:min-w-[55rem] flex flex-col gap-12 items-center">
-          <Breadcrumb className="text-sm md:text-lg" separator={<ChevronRightIcon />}>
+          <Breadcrumb className="text-lg" separator={<ChevronRightIcon />}>
             <BreadcrumbItem>
               <NavLink
                 to="/new-user/basic-info"
