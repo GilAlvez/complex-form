@@ -23,6 +23,7 @@ interface TextFieldProps extends InputProps {
   className?: string;
   leftAddon?: string;
   required?: boolean;
+  disabled?: boolean;
   inputRef?: React.MutableRefObject<HTMLInputElement | null>;
   rightElement?: ReactNode;
   leftElement?: ReactNode;

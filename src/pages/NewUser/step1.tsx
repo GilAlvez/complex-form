@@ -140,8 +140,8 @@ const StepBasicInfo = () => {
 
         <div className="md:col-span-12">
           <div className="flex flex-wrap gap-4">
-            {values.tags.map((tag, index) => (
-              <TagCard onClick={() => removeTag(index)} key={tag}>
+            {values.tags.map((tag) => (
+              <TagCard onClick={() => removeTag(values.tags.indexOf(tag))} key={tag}>
                 {tag}
               </TagCard>
             ))}

@@ -24,7 +24,7 @@ const PlanCard = (props: PlanCardProps) => {
         <p>{plan.price}</p>
       </div>
       <ul className="py-4 list-disc list-inside">
-        <li>Limit user: {plan.benefits.limit}</li>
+        <li>Limit users: {plan.benefits.limit}</li>
         {plan.benefits.donwload && <li>Download profile</li>}
         {plan.benefits.upload && <li>Upload profile</li>}
       </ul>
