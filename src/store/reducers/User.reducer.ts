@@ -46,10 +46,16 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
 
     case Actions.ADD_TAG:
       const tags = payload.value.split(/[,.\s]/).filter(Boolean);
-      return { ...state, data: { ...state.data, tags: [...state.data.tags, ...tags] } };
+      return {
+        ...state,
+        data: { ...state.data, tags: [...new Set([...state.data.tags, ...tags])] },
+      };
 
     case Actions.REMOVE_TAG:
-      const tagsRemoveFilter = state.data.tags.splice(payload.index, 1);
+      const tagsRemoveFilter = [
+        ...state.data.tags.slice(0, payload.index),
+        ...state.data.tags.slice(payload.index + 1),
+      ];
       return { ...state, data: { ...state.data, tags: tagsRemoveFilter } };
 
     case Actions.HANDLE_SELECT_ADDRESS:
