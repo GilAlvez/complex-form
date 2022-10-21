@@ -1,11 +1,12 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import TagCard from "../../components/Cards/Tags";
 import TextArea from "../../components/Inputs/TextArea";
 import TextField from "../../components/Inputs/TextField";
 import { PhoneContext } from "../../context/PhoneContext";
 import { UserContext } from "../../context/UserContext";
+import { stepOneValidation } from "../../helpers/validations/createUser";
 import { Actions } from "../../store/actions/User.actions";
 import { intlPhoneMask } from "../../utils/intlPhoneMask";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
@@ -13,6 +14,7 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 const StepBasicInfo = () => {
   const ref = useRef<HTMLInputElement | null>(null);
   const { country, countryChange } = useContext(PhoneContext);
+  const [errors, setErrors] = useState<any>();
   const { state, dispatch } = useContext(UserContext);
   const { data: values } = state;
 
@@ -26,9 +28,33 @@ const StepBasicInfo = () => {
     const { value } = e.currentTarget.tags;
     dispatch({ type: Actions.ADD_TAG, payload: { value } });
   };
-
   const removeTag = (index: number) => {
     dispatch({ type: Actions.REMOVE_TAG, payload: { index } });
+  };
+
+  const handleNextStep = () => {
+    const { first_name, last_name, genre, birthday, phone, description, website, tags } = values;
+    const stepOne = { first_name, last_name, genre, birthday, phone, description, website, tags };
+    stepOneValidation
+      .validate(stepOne, { abortEarly: false })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        const { inner } = err;
+        let errorsMessage: any = {};
+        for (let index = 0; index < inner.length; index++) {
+          if (inner[index].path in errorsMessage) {
+            errorsMessage = {
+              ...errorsMessage,
+              [inner[index].path]: [
+                ...errorsMessage[inner[index].path].concat(inner[index].errors),
+              ],
+            };
+          } else {
+            errorsMessage = { ...errorsMessage, [inner[index].path]: inner[index].errors };
+          }
+        }
+        setErrors(errorsMessage);
+      });
   };
 
   return (
@@ -41,6 +67,7 @@ const StepBasicInfo = () => {
           className="md:col-span-4"
           value={values.first_name}
           onChange={handleChange}
+          error={errors?.first_name}
         />
         <TextField
           label="Last name"
@@ -49,6 +76,7 @@ const StepBasicInfo = () => {
           className="md:col-span-8"
           value={values.last_name}
           onChange={handleChange}
+          error={errors?.last_name}
         />
         <datalist id="genre_options">
           <option value="Male" />
@@ -62,6 +90,7 @@ const StepBasicInfo = () => {
           className="md:col-span-6 xl:col-span-3"
           value={values.genre}
           onChange={handleChange}
+          error={errors?.genre}
         />
         <TextField
           label="Birthday"
@@ -70,6 +99,7 @@ const StepBasicInfo = () => {
           className="md:col-span-6 xl:col-span-3"
           value={values.birthday}
           onChange={handleChange}
+          error={errors?.birthday}
         />
 
         <TextField
@@ -111,6 +141,7 @@ const StepBasicInfo = () => {
           isDisabled={!values.countryCode}
           className="md:col-span-12 xl:col-span-6"
           borderLeftRadius={0}
+          error={errors?.phone}
         />
 
         <TextArea
@@ -120,6 +151,7 @@ const StepBasicInfo = () => {
           className="md:col-span-12"
           value={values.description}
           onChange={handleChange}
+          error={errors?.description}
         />
         <TextField
           label="Site"
@@ -129,10 +161,11 @@ const StepBasicInfo = () => {
           leftAddon="https://"
           value={values.website}
           onChange={handleChange}
+          error={errors?.website}
         />
 
         <div className="flex gap-4 md:col-span-12">
-          <TextField label="Tags" name="tags" />
+          <TextField label="Tags" name="tags" error={errors?.tags} />
           <Button className="self-end" type="submit" paddingX={10}>
             Add Tags
           </Button>
@@ -152,9 +185,14 @@ const StepBasicInfo = () => {
         <Link to={"/"}>
           <Button className="w-full">Back</Button>
         </Link>
-        <Link to={"/new-user/address"}>
-          <Button className="w-full">Next</Button>
-        </Link>
+        {/* <Link to={"/new-user/address"}>
+          <Button onClick={handleNextStep} className="w-full">
+            Next
+          </Button>
+        </Link> */}
+        <Button onClick={handleNextStep} className="w-full">
+          Next
+        </Button>
       </div>
     </main>
   );

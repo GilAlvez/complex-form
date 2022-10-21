@@ -16,7 +16,7 @@ import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
 
 interface TextFieldProps extends InputProps {
   mask?: string | Array<string | RegExp>;
-  error?: string;
+  error?: string[];
   label?: string;
   showPass?: boolean;
   type?: HTMLInputTypeAttribute;
@@ -97,7 +97,7 @@ const TextField = (props: TextFieldProps) => {
         )}
         {rightElement}
       </InputGroup>
-      <FormErrorMessage>{error}</FormErrorMessage>
+      <FormErrorMessage>{error?.[0]}</FormErrorMessage>
     </FormControl>
   );
 };
