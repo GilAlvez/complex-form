@@ -13,7 +13,7 @@ const StepUserInfo = () => {
   const navigate = useNavigate();
 
   const { state, dispatch } = useContext(UserContext);
-  const { data: values } = state;
+  const { data: values, status } = state;
 
   const [errors, setErrors] = useState<StepFourValidation>();
 
@@ -29,10 +29,15 @@ const StepUserInfo = () => {
 
   const handleNextStep = async () => {
     const { avatar, email, username, password } = values;
-    const stepFour = { avatar, email, username, password };
+    const stepFour = { avatar: avatar.image, email, username, password };
     useYupValidation({ data: stepFour, schema: stepFourSchema }).then((res: any) => {
       const { errors } = res;
-      errors ? setErrors(errors) : navigate("/");
+      if (errors) {
+        setErrors(errors);
+        return;
+      }
+      dispatch({ type: Actions.HANDLE_NEXT_STEP, payload: { step: "4" } });
+      status.step1 && status.step2 && status.step3 && navigate("/");
     });
   };
 
