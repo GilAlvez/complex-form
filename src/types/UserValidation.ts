@@ -18,7 +18,9 @@ export interface StepTwoValidation {
   state?: string[];
   street?: string[];
 }
-
+export interface StepThreeValidation {
+  plan_id?: string[];
+}
 export interface StepFourValidation {
   avatar?: string[];
   email?: string[];
