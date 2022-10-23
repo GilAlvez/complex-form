@@ -5,7 +5,7 @@ interface ImageInputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   imgSrc: string;
   label?: string;
-  error?: string;
+  error?: string[];
 }
 
 const ImageInput = (props: ImageInputProps) => {
@@ -50,7 +50,7 @@ const ImageInput = (props: ImageInputProps) => {
         </figure>
       </div>
       <FormControl isInvalid={error ? true : false}>
-        <FormErrorMessage>{error}</FormErrorMessage>
+        <FormErrorMessage>{error?.[0]}</FormErrorMessage>
       </FormControl>
     </div>
   );
