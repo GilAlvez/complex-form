@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 interface TextFieldProps extends TextareaProps {
-  error?: string;
+  error?: string[];
   label?: string;
   className?: string;
 }
@@ -22,7 +22,7 @@ const TextArea = (props: TextFieldProps) => {
       <InputGroup>
         <Textarea {...rest} />
       </InputGroup>
-      <FormErrorMessage>{error}</FormErrorMessage>
+      <FormErrorMessage>{error?.[0]}</FormErrorMessage>
     </FormControl>
   );
 };
