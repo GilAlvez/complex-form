@@ -22,7 +22,7 @@ const StepBasicInfo = () => {
   const { state, dispatch } = useContext(UserContext);
   const { data: values, status } = state;
 
-  const [firstSubmit, setFirstSubmit] = useState(true);
+  // const [firstSubmit, setFirstSubmit] = useState(true);
   const [errors, setErrors] = useState<StepOneValidation>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -39,7 +39,6 @@ const StepBasicInfo = () => {
   };
 
   const handleNextStep = async () => {
-    setFirstSubmit(false);
     const { first_name, last_name, genre, birthday, phone, description, website, tags } = values;
     const stepOne = { first_name, last_name, genre, birthday, phone, description, website, tags };
     useYupValidation({ data: stepOne, schema: stepOneSchema }).then((res: any) => {
@@ -182,7 +181,6 @@ const StepBasicInfo = () => {
         <Button
           // disabled={!firstSubmit && !status.step1}
           onClick={handleNextStep}
-          className="w-full"
         >
           Next
         </Button>

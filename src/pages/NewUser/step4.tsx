@@ -1,14 +1,21 @@
 import { Button } from "@chakra-ui/react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import ImageInput from "../../components/Inputs/ImageInput";
 import TextField from "../../components/Inputs/TextField";
 import { UserContext } from "../../context/UserContext";
+import { stepFourSchema } from "../../helpers/validations/createUser";
+import useYupValidation from "../../hooks/useYupValidation";
 import { Actions } from "../../store/actions/User.actions";
+import { StepFourValidation } from "../../types/UserValidation";
 
 const StepUserInfo = () => {
+  const navigate = useNavigate();
+
   const { state, dispatch } = useContext(UserContext);
   const { data: values } = state;
+
+  const [errors, setErrors] = useState<StepFourValidation>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,6 +27,15 @@ const StepUserInfo = () => {
     files && dispatch({ type: Actions.HANDLE_CHANGE_AVATAR, payload: files });
   };
 
+  const handleNextStep = async () => {
+    const { avatar, email, username, password } = values;
+    const stepFour = { avatar, email, username, password };
+    useYupValidation({ data: stepFour, schema: stepFourSchema }).then((res: any) => {
+      const { errors } = res;
+      errors ? setErrors(errors) : navigate("/");
+    });
+  };
+
   return (
     <main className="w-full p-6 border border-white/20 rounded-lg md:p-12 ">
       <form className="flex flex-col gap-4">
@@ -28,6 +44,7 @@ const StepUserInfo = () => {
           id="avatar"
           imgSrc={values.avatar.url}
           onChange={handleAvatarChange}
+          error={errors?.avatar}
         />
         <TextField
           label="E-mail"
@@ -35,6 +52,7 @@ const StepUserInfo = () => {
           type="text"
           value={values.email}
           onChange={handleChange}
+          error={errors?.email}
         />
         <TextField
           label="Username"
@@ -42,6 +60,7 @@ const StepUserInfo = () => {
           type="text"
           value={values.username}
           onChange={handleChange}
+          error={errors?.username}
         />
         <TextField
           label="Senha"
@@ -49,12 +68,13 @@ const StepUserInfo = () => {
           type="password"
           value={values.password}
           onChange={handleChange}
+          error={errors?.password}
         />
         <div className="grid grid-cols-2 gap-4">
           <Link to={"/new-user/plan"}>
             <Button className="w-full">Back</Button>
           </Link>
-          <Button>Finish</Button>
+          <Button onClick={handleNextStep}>Finish</Button>
         </div>
       </form>
     </main>
