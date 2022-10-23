@@ -38,7 +38,12 @@ const StepAddress = () => {
     const stepTwo = { label, city, country, postal_code, state, street };
     useYupValidation({ data: stepTwo, schema: stepTwoSchema }).then((res: any) => {
       const { errors } = res;
-      errors ? setErrors(errors) : navigate("/new-user/plan");
+      if (errors) {
+        setErrors(errors);
+        return;
+      }
+      dispatch({ type: Actions.HANDLE_NEXT_STEP, payload: { step: "2" } });
+      navigate("/new-user/plan");
     });
   };
 

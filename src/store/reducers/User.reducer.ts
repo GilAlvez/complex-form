@@ -28,7 +28,7 @@ export const initialState: UserState = {
       street: "",
     },
 
-    plan_id: "1",
+    plan_id: "",
 
     avatar: { image: null, url: "" },
     email: "",
@@ -74,6 +74,16 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
       const image = payload[0];
       const url = image && URL.createObjectURL(payload[0]);
       return { ...state, data: { ...state.data, avatar: { image, url } } };
+
+    case Actions.HANDLE_NEXT_STEP:
+      const { step } = payload;
+      return {
+        ...state,
+        status: { ...state.status, [`step${step}`]: true },
+      };
+
+    case Actions.RESET:
+      return initialState;
 
     default:
       return state;

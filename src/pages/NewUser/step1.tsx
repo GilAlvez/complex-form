@@ -43,7 +43,12 @@ const StepBasicInfo = () => {
     const stepOne = { first_name, last_name, genre, birthday, phone, description, website, tags };
     useYupValidation({ data: stepOne, schema: stepOneSchema }).then((res: any) => {
       const { errors } = res;
-      errors ? setErrors(errors) : navigate("/new-user/address");
+      if (errors) {
+        setErrors(errors);
+        return;
+      }
+      dispatch({ type: Actions.HANDLE_NEXT_STEP, payload: { step: "1" } });
+      navigate("/new-user/address");
     });
   };
 
@@ -148,7 +153,7 @@ const StepBasicInfo = () => {
           name="website"
           type="url"
           className="md:col-span-12"
-          leftAddon="https://"
+          // leftAddon="https://"
           value={values.website}
           onChange={handleChange}
           error={errors?.website}

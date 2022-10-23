@@ -3,8 +3,10 @@ export enum Actions {
   HANDLE_SELECT_ADDRESS = "HANDLE_SELECT_ADDRESS",
   HANDLE_CHANGE_ADDRESS = "HANDLE_CHANGE_ADDRESS",
   HANDLE_CHANGE_AVATAR = "HANDLE_CHANGE_AVATAR",
+  HANDLE_NEXT_STEP = "HANDLE_NEXT_STEP",
   ADD_TAG = "ADD_TAG",
   REMOVE_TAG = "REMOVE_TAG",
+  RESET = "RESET",
 }
 
 export type UserActions =
@@ -38,4 +40,12 @@ export type UserActions =
   | {
       type: Actions.HANDLE_CHANGE_AVATAR;
       payload: FileList;
+    }
+  | {
+      type: Actions.HANDLE_NEXT_STEP;
+      payload: { step: "1" | "2" | "3" | "4" };
+    }
+  | {
+      type: Actions.RESET;
+      payload?: null;
     };
