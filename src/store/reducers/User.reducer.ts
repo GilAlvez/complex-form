@@ -82,6 +82,9 @@ export const userReducer = (state: UserState, action: UserActions): UserState =>
         status: { ...state.status, [`step${step}`]: true },
       };
 
+    case Actions.RESET:
+      return initialState;
+
     default:
       return state;
   }

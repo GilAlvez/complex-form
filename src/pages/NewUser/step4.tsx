@@ -38,6 +38,7 @@ const StepUserInfo = () => {
       }
       dispatch({ type: Actions.HANDLE_NEXT_STEP, payload: { step: "4" } });
       status.step1 && status.step2 && status.step3 && navigate("/");
+      dispatch({ type: Actions.RESET });
     });
   };
 
