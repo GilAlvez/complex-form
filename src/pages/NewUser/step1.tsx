@@ -1,28 +1,34 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Button, FormLabel, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ValidationError } from "yup";
 import TagCard from "../../components/Cards/Tags";
 import TextArea from "../../components/Inputs/TextArea";
 import TextField from "../../components/Inputs/TextField";
 import { PhoneContext } from "../../context/PhoneContext";
 import { UserContext } from "../../context/UserContext";
-import { stepOneValidation } from "../../helpers/validations/createUser";
+import { stepOneSchema } from "../../helpers/validations/createUser";
+import useYupValidation from "../../hooks/useYupValidation";
 import { Actions } from "../../store/actions/User.actions";
+import { StepOneValidation } from "../../types/UserValidation";
 import { intlPhoneMask } from "../../utils/intlPhoneMask";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 const StepBasicInfo = () => {
+  const navigate = useNavigate();
   const ref = useRef<HTMLInputElement | null>(null);
+
   const { country, countryChange } = useContext(PhoneContext);
-  const [errors, setErrors] = useState<any>();
   const { state, dispatch } = useContext(UserContext);
-  const { data: values } = state;
+  const { data: values, status } = state;
+
+  const [firstSubmit, setFirstSubmit] = useState(true);
+  const [errors, setErrors] = useState<StepOneValidation>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     dispatch({ type: Actions.HANDLE_CHANGE, payload: { name, value } });
   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { value } = e.currentTarget.tags;
@@ -32,29 +38,14 @@ const StepBasicInfo = () => {
     dispatch({ type: Actions.REMOVE_TAG, payload: { index } });
   };
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
+    setFirstSubmit(false);
     const { first_name, last_name, genre, birthday, phone, description, website, tags } = values;
     const stepOne = { first_name, last_name, genre, birthday, phone, description, website, tags };
-    stepOneValidation
-      .validate(stepOne, { abortEarly: false })
-      .then((res) => console.log(res))
-      .catch((err) => {
-        const { inner } = err;
-        let errorsMessage: any = {};
-        for (let index = 0; index < inner.length; index++) {
-          if (inner[index].path in errorsMessage) {
-            errorsMessage = {
-              ...errorsMessage,
-              [inner[index].path]: [
-                ...errorsMessage[inner[index].path].concat(inner[index].errors),
-              ],
-            };
-          } else {
-            errorsMessage = { ...errorsMessage, [inner[index].path]: inner[index].errors };
-          }
-        }
-        setErrors(errorsMessage);
-      });
+    useYupValidation({ data: stepOne, schema: stepOneSchema }).then((res: any) => {
+      const { errors } = res;
+      errors ? setErrors(errors) : navigate("/new-user/address");
+    });
   };
 
   return (
@@ -166,9 +157,12 @@ const StepBasicInfo = () => {
 
         <div className="flex gap-4 md:col-span-12">
           <TextField label="Tags" name="tags" error={errors?.tags} />
-          <Button className="self-end" type="submit" paddingX={10}>
-            Add Tags
-          </Button>
+          <div>
+            <FormLabel visibility="hidden">Add</FormLabel>
+            <Button type="submit" paddingX={10}>
+              Add Tags
+            </Button>
+          </div>
         </div>
 
         <div className="md:col-span-12">
@@ -185,12 +179,11 @@ const StepBasicInfo = () => {
         <Link to={"/"}>
           <Button className="w-full">Back</Button>
         </Link>
-        {/* <Link to={"/new-user/address"}>
-          <Button onClick={handleNextStep} className="w-full">
-            Next
-          </Button>
-        </Link> */}
-        <Button onClick={handleNextStep} className="w-full">
+        <Button
+          // disabled={!firstSubmit && !status.step1}
+          onClick={handleNextStep}
+          className="w-full"
+        >
           Next
         </Button>
       </div>
