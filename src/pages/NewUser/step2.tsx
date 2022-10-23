@@ -1,18 +1,25 @@
 import { Button } from "@chakra-ui/react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AddressCard from "../../components/Cards/Address";
 import SearchField from "../../components/Inputs/SearchField";
 import TextField from "../../components/Inputs/TextField";
 import { AddressContext } from "../../context/AddressContext";
 import { UserContext } from "../../context/UserContext";
+import { stepTwoSchema } from "../../helpers/validations/createUser";
+import useYupValidation from "../../hooks/useYupValidation";
 import { Actions } from "../../store/actions/User.actions";
 import { PositionStackResults } from "../../types/PositionStack";
+import { StepTwoValidation } from "../../types/UserValidation";
 
 const StepAddress = () => {
+  const navigate = useNavigate();
+
   const { adresses, getAdresses } = useContext(AddressContext);
   const { state, dispatch } = useContext(UserContext);
   const { data: values } = state;
+
+  const [errors, setErrors] = useState<StepTwoValidation>();
 
   const selectAddress = (address: PositionStackResults) => {
     const { label, country, county: city, postal_code, region: state, street } = address;
@@ -24,6 +31,15 @@ const StepAddress = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     dispatch({ type: Actions.HANDLE_CHANGE_ADDRESS, payload: { name, value } });
+  };
+
+  const handleNextStep = async () => {
+    const { label, city, country, postal_code, state, street } = values.address;
+    const stepTwo = { label, city, country, postal_code, state, street };
+    useYupValidation({ data: stepTwo, schema: stepTwoSchema }).then((res: any) => {
+      const { errors } = res;
+      errors ? setErrors(errors) : navigate("/new-user/plan");
+    });
   };
 
   return (
@@ -59,6 +75,7 @@ const StepAddress = () => {
             className="col-span-2"
             value={values.address.street ?? ""}
             onChange={handleChange}
+            error={errors?.street}
           />
           <TextField
             label="City"
@@ -66,6 +83,7 @@ const StepAddress = () => {
             type="text"
             value={values.address.city ?? ""}
             onChange={handleChange}
+            error={errors?.city}
           />
           <TextField
             label="Postal Code"
@@ -73,6 +91,7 @@ const StepAddress = () => {
             type="text"
             value={values.address.postal_code ?? ""}
             onChange={handleChange}
+            error={errors?.postal_code}
           />
           <TextField
             label="State"
@@ -80,6 +99,7 @@ const StepAddress = () => {
             type="text"
             value={values.address.state ?? ""}
             onChange={handleChange}
+            error={errors?.state}
           />
           <TextField
             label="Country"
@@ -87,6 +107,7 @@ const StepAddress = () => {
             type="text"
             value={values.address.country ?? ""}
             onChange={handleChange}
+            error={errors?.country}
           />
         </form>
 
@@ -94,9 +115,7 @@ const StepAddress = () => {
           <Link to={"/new-user/basic-info"}>
             <Button className="w-full">Back</Button>
           </Link>
-          <Link to={"/new-user/plan"}>
-            <Button className="w-full">Next</Button>
-          </Link>
+          <Button onClick={handleNextStep}>Next</Button>
         </div>
       </div>
     </main>

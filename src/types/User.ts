@@ -17,7 +17,7 @@ export interface UserState {
     tags: string[];
 
     address: {
-      label: string;
+      label?: string;
       country?: string;
       city?: string;
       postal_code?: string;
