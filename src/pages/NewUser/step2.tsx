@@ -17,7 +17,7 @@ const StepAddress = () => {
 
   const { adresses, getAdresses } = useContext(AddressContext);
   const { state, dispatch } = useContext(UserContext);
-  const { address: values } = state.data;
+  const { data: values } = state;
 
   const [errors, setErrors] = useState<StepTwoValidation>();
 
@@ -34,7 +34,7 @@ const StepAddress = () => {
   };
 
   const handleNextStep = async () => {
-    const { label, city, country, postal_code, state, street } = values;
+    const { label, city, country, postal_code, state, street } = values.address;
     const stepTwo = { label, city, country, postal_code, state, street };
     useYupValidation({ data: stepTwo, schema: stepTwoSchema }).then((res: any) => {
       const { errors } = res;
@@ -61,7 +61,7 @@ const StepAddress = () => {
             key={address.latitude + address.longitude}
             onClick={() => selectAddress(address)}
             onFocus={() => selectAddress(address)}
-            selected={address?.label === values.label}
+            selected={address?.label === values.address.label}
           >
             {address.label}
           </AddressCard>
@@ -73,7 +73,7 @@ const StepAddress = () => {
             name="street"
             type="text"
             className="col-span-2"
-            value={values.street ?? ""}
+            value={values.address.street ?? ""}
             onChange={handleChange}
             error={errors?.street}
           />
@@ -81,7 +81,7 @@ const StepAddress = () => {
             label="City"
             name="city"
             type="text"
-            value={values.city ?? ""}
+            value={values.address.city ?? ""}
             onChange={handleChange}
             error={errors?.city}
           />
@@ -89,7 +89,7 @@ const StepAddress = () => {
             label="Postal Code"
             name="postal_code"
             type="text"
-            value={values.postal_code ?? ""}
+            value={values.address.postal_code ?? ""}
             onChange={handleChange}
             error={errors?.postal_code}
           />
@@ -97,7 +97,7 @@ const StepAddress = () => {
             label="State"
             name="state"
             type="text"
-            value={values.state ?? ""}
+            value={values.address.state ?? ""}
             onChange={handleChange}
             error={errors?.state}
           />
@@ -105,7 +105,7 @@ const StepAddress = () => {
             label="Country"
             name="country"
             type="text"
-            value={values.country ?? ""}
+            value={values.address.country ?? ""}
             onChange={handleChange}
             error={errors?.country}
           />
