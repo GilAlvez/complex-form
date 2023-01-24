@@ -5,6 +5,7 @@ import AddressCard from "../../components/Cards/Address";
 import SearchField from "../../components/Inputs/SearchField";
 import TextField from "../../components/Inputs/TextField";
 import { AddressContext } from "../../context/AddressContext";
+import { Tooltip } from "@chakra-ui/react";
 import { UserContext } from "../../context/UserContext";
 import { stepTwoSchema } from "../../helpers/validations/createUser";
 import useYupValidation from "../../hooks/useYupValidation";
@@ -22,7 +23,14 @@ const StepAddress = () => {
   const [errors, setErrors] = useState<StepTwoValidation>();
 
   const selectAddress = (address: PositionStackResults) => {
-    const { label, country, county: city, postal_code, region: state, street } = address;
+    const {
+      label,
+      country,
+      county: city,
+      postal_code,
+      region: state,
+      street,
+    } = address;
     const payload = { label, country, city, postal_code, state, street };
 
     dispatch({ type: Actions.HANDLE_SELECT_ADDRESS, payload });
@@ -36,21 +44,26 @@ const StepAddress = () => {
   const handleNextStep = async () => {
     const { label, city, country, postal_code, state, street } = values.address;
     const stepTwo = { label, city, country, postal_code, state, street };
-    useYupValidation({ data: stepTwo, schema: stepTwoSchema }).then((res: any) => {
-      const { errors } = res;
-      if (errors) {
-        setErrors(errors);
-        return;
+    useYupValidation({ data: stepTwo, schema: stepTwoSchema }).then(
+      (res: any) => {
+        const { errors } = res;
+        if (errors) {
+          setErrors(errors);
+          return;
+        }
+        dispatch({ type: Actions.HANDLE_NEXT_STEP, payload: { step: "2" } });
+        navigate("/new-user/plan");
       }
-      dispatch({ type: Actions.HANDLE_NEXT_STEP, payload: { step: "2" } });
-      navigate("/new-user/plan");
-    });
+    );
   };
 
   return (
     <main className="w-full p-6 border border-white/20 rounded-lg md:p-12 ">
       <div className="flex flex-col gap-4">
         <form onSubmit={getAdresses}>
+          <Tooltip label="This address search API is free, and it is not possible to use HTTPs call (only HTTP), to make a successful attempt I recommend creating an account at PositionStack and change .env values, or disable HTTP browser block">
+            <p className="opacity-50 text-right text-sm">Can't search?</p>
+          </Tooltip>
           <SearchField
             label="Search your address here"
             id="search_address"
