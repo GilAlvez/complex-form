@@ -1,12 +1,5 @@
 {
-    "routes": [
-      { "src": "/", "dest": "/" },
-      { "src": "/profile", "dest": "/profile" },
-      { "src": "/profile/edit", "dest": "/profile/edit" },
-      { "src": "/new-user", "dest": "/new-user" },
-      { "src": "/new-user/basic-info", "dest": "/new-user/basic-info" },
-      { "src": "/new-user/address", "dest": "/new-user/address" },
-      { "src": "/new-user/plan", "dest": "/new-user/plan" },
-      { "src": "/new-user/user-info", "dest": "/new-user/user-info" }
-    ]
+  "rewrites":  [
+    {"source": "/(.*)", "destination": "/"}
+  ]
 }
